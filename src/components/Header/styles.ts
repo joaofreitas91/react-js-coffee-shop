@@ -20,47 +20,52 @@ export const ActionsContainer = styled.div`
   align-items: center;
   gap: 0.75rem;
 
-  div {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    color: ${({ theme }) => theme.colors['purple-dark']};
-    background: ${({ theme }) => theme.colors['purple-light']};
-  }
-
   a {
     display: flex;
     justify-content: center;
     align-items: center;
 
+    color: ${({ theme }) => theme.colors['yellow-dark']};
     background: ${({ theme }) => theme.colors['yellow-light']};
     padding: 0.5rem;
     border-radius: 0.375rem;
 
     text-decoration: none;
     position: relative;
+
+    span {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 20px;
+      width: 20px;
+
+      border-radius: 50%;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      color: ${({ theme }) => theme.colors.white};
+      background: ${({ theme }) => theme.colors['yellow-dark']};
+    }
   }
+`
+
+export const LocationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background: ${({ theme }) => theme.colors['purple-light']};
+  color: ${({ theme }) => theme.colors.purple};
 
   span {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 20px;
-    width: 20px;
-
-    border-radius: 50%;
-
-    font-size: 0.75rem;
-    font-weight: 700;
-
-    color: ${({ theme }) => theme.colors.white};
-    background: ${({ theme }) => theme.colors['yellow-dark']};
+    color: ${({ theme }) => theme.colors['purple-dark']};
   }
 `

@@ -18,3 +18,5 @@ export const defaultTheme = {
     white: '#ffffff',
   },
 }
+
+export type ThemeType = keyof typeof defaultTheme.colors

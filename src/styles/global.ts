@@ -27,4 +27,8 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${({ theme }) => theme.colors['base-text']};
   }
+
+  li {
+    list-style: none;
+  }
  `

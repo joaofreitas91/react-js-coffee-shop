@@ -2,7 +2,12 @@ import logo from '../../assets/logo.svg'
 
 import { Link } from 'react-router-dom'
 
-import { HeaderContainer, LogoContainer, ActionsContainer } from './styles'
+import {
+  HeaderContainer,
+  LogoContainer,
+  ActionsContainer,
+  LocationContainer,
+} from './styles'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { defaultTheme } from '../../styles/theme/default'
 
@@ -13,16 +18,12 @@ export const Header = () => {
         <img src={logo} alt="logo" />
       </LogoContainer>
       <ActionsContainer>
-        <div>
+        <LocationContainer>
           <MapPin weight="fill" color={defaultTheme.colors.purple} />
-          Porto Alegre, RS
-        </div>
+          <span>Porto Alegre, RS</span>
+        </LocationContainer>
         <Link to="/checkout" title="checkout">
-          <ShoppingCart
-            size={22}
-            weight="fill"
-            color={defaultTheme.colors['yellow-dark']}
-          />
+          <ShoppingCart size={22} weight="fill" />
           <span>3</span>
         </Link>
       </ActionsContainer>
