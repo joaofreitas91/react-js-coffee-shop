@@ -6,6 +6,11 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3.5rem;
+  margin: 0 0.5rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 
 export const Content = styled.div`
@@ -31,7 +36,7 @@ export const Content = styled.div`
 
 export const List = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 
   margin-top: 4.125rem;
@@ -47,6 +52,7 @@ export const ListItem = styled.li<ListItemProps>`
 
   div {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
 
