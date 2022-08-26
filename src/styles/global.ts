@@ -15,7 +15,16 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, input, button, textarea{
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-}
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors['base-text']};
+  }
  `
