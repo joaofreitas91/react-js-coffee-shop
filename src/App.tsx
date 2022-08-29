@@ -4,12 +4,15 @@ import { GlobalStyle } from './styles/global'
 
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './Router'
+import { CoffeeProvider } from './contexts/CoffeeContext'
 
 export const App = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
-        <Router />
+        <CoffeeProvider>
+          <Router />
+        </CoffeeProvider>
       </BrowserRouter>
       <GlobalStyle />
     </ThemeProvider>

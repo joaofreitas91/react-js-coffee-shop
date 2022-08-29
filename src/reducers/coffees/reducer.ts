@@ -10,7 +10,7 @@ export interface Coffee {
   quantity: number
 }
 
-interface StateCoffee {
+export interface StateCoffee {
   catalog: Coffee[]
   cart: Coffee[]
 }

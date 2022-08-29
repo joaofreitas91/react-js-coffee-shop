@@ -1,6 +1,8 @@
-import logo from '../../assets/images/logo.svg'
-
+import { useContext } from 'react'
+import { CoffeeContext } from '../../contexts/CoffeeContext'
 import { Link } from 'react-router-dom'
+
+import logo from '../../assets/images/logo.svg'
 
 import {
   HeaderContainer,
@@ -8,10 +10,12 @@ import {
   ActionsContainer,
   LocationContainer,
 } from './styles'
+
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { defaultTheme } from '../../styles/theme/default'
 
 export const Header = () => {
+  const { cart } = useContext(CoffeeContext)
   return (
     <HeaderContainer>
       <LogoContainer>
@@ -26,7 +30,7 @@ export const Header = () => {
         </LocationContainer>
         <Link to="/checkout" title="checkout">
           <ShoppingCart size={22} weight="fill" />
-          <span>3</span>
+          <span>{cart.length}</span>
         </Link>
       </ActionsContainer>
     </HeaderContainer>
