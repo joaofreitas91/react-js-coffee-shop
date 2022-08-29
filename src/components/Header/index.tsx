@@ -15,7 +15,9 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <LogoContainer>
-        <img src={logo} alt="logo" />
+        <Link to="/" title="home">
+          <img src={logo} alt="logo" />
+        </Link>
       </LogoContainer>
       <ActionsContainer>
         <LocationContainer>

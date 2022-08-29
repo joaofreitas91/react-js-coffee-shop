@@ -1,4 +1,10 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
+import { coffeesReducer } from '../../reducers/coffees/reducer'
+import {
+  addToCart,
+  decrementCoffee,
+  incrementCoffee,
+} from '../../reducers/coffees/actions'
 
 import { Hero } from '../../components/Hero'
 import {
@@ -166,35 +172,10 @@ const coffees = [
 ]
 
 export const Home = () => {
-  const [coffeesList, setCoffeesList] = useState(coffees)
-
-  function plusCoffee(id: number) {
-    setCoffeesList((previousVale) => {
-      return previousVale.map((coffee) => {
-        if (coffee.id === id) {
-          return {
-            ...coffee,
-            quantity: coffee.quantity + 1,
-          }
-        }
-        return coffee
-      })
-    })
-  }
-
-  function minusCoffee(id: number) {
-    setCoffeesList((previousVale) => {
-      return previousVale.map((coffee) => {
-        if (coffee.id === id && coffee.quantity > 1) {
-          return {
-            ...coffee,
-            quantity: coffee.quantity - 1,
-          }
-        }
-        return coffee
-      })
-    })
-  }
+  const [coffeesState, dispatch] = useReducer(coffeesReducer, {
+    catalog: coffees,
+    cart: [],
+  })
 
   return (
     <>
@@ -202,7 +183,7 @@ export const Home = () => {
       <Container>
         <h1>Nossos Cafés</h1>
         <CardsList>
-          {coffeesList.map((coffee) => (
+          {coffeesState.catalog.map((coffee) => (
             <CardContainer key={coffee.id}>
               <CardContent>
                 <img src={coffee.picture} alt={coffee.title} />
@@ -222,15 +203,15 @@ export const Home = () => {
                     })}
                   </Price>
                   <ActionsCard>
-                    <button onClick={() => minusCoffee(coffee.id)}>
+                    <button onClick={() => dispatch(decrementCoffee(coffee))}>
                       <Minus weight="bold" />
                     </button>
                     <p>{coffee.quantity}</p>
-                    <button onClick={() => plusCoffee(coffee.id)}>
+                    <button onClick={() => dispatch(incrementCoffee(coffee))}>
                       <Plus weight="bold" />
                     </button>
                   </ActionsCard>
-                  <CartButton>
+                  <CartButton onClick={() => dispatch(addToCart(coffee))}>
                     <ShoppingCart size={20} weight="fill" />
                   </CartButton>
                 </ActionsContainer>
