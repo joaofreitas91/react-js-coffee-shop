@@ -72,6 +72,29 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
       }
     }
 
+    case ActionsTypes.INCREMENT_COFFEE_TO_CART: {
+      return {
+        ...state,
+        cart: state.cart.map((coffee) => {
+          if (coffee.id === action.payload.id) {
+            return { ...coffee, quantity: coffee.quantity + 1 }
+          }
+          return coffee
+        }),
+      }
+    }
+    case ActionsTypes.DECREMENT_COFFEE_TO_CART: {
+      return {
+        ...state,
+        cart: state.cart.map((coffee) => {
+          if (coffee.id === action.payload.id && coffee.quantity > 1) {
+            return { ...coffee, quantity: coffee.quantity - 1 }
+          }
+          return coffee
+        }),
+      }
+    }
+
     case ActionsTypes.REMOVE_FROM_CART: {
       return {
         ...state,

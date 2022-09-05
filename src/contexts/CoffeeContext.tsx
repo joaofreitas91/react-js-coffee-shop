@@ -5,6 +5,8 @@ import {
   decrementCoffee,
   addToCart,
   removeFromCart,
+  incrementCoffeeToCart,
+  decrementCoffeeToCart,
 } from '../reducers/coffees/actions'
 
 import { Coffee, coffeesReducer } from '../reducers/coffees/reducer'
@@ -163,6 +165,8 @@ interface CoffeeContextProps {
   handleIncrementCoffee: (coffee: Coffee) => void
   handleDecrementCoffee: (coffee: Coffee) => void
   handleAddToCart: (coffee: Coffee) => void
+  handleDecrementCoffeeToCart: (coffee: Coffee) => void
+  handleIncrementCoffeeToCart: (coffee: Coffee) => void
   handleRemoveFromCart: (coffee: Coffee) => void
 }
 
@@ -175,7 +179,35 @@ export const CoffeeContext = createContext({} as CoffeeContextProps)
 export const CoffeeProvider = ({ children }: CoffeeProviderProps) => {
   const [coffeesState, dispatch] = useReducer(coffeesReducer, {
     catalog: coffees,
-    cart: [],
+    cart: [
+      {
+        id: 1,
+        picture: espressoCoffee,
+        types: ['tradicional'],
+        title: 'Expresso Tradicional',
+        description: 'O tradicional café feito com água quente e grãos moídos',
+        price: 9.9,
+        quantity: 1,
+      },
+      {
+        id: 2,
+        picture: americanCoffee,
+        types: ['tradicional'],
+        title: 'Expresso Americano',
+        description: 'Expresso diluído, menos intenso que o tradicional',
+        price: 9.9,
+        quantity: 1,
+      },
+      {
+        id: 3,
+        picture: creamyEspresso,
+        types: ['tradicional'],
+        title: 'Expresso Cremoso',
+        description: 'Café expresso tradicional com espuma cremosa',
+        price: 9.9,
+        quantity: 1,
+      },
+    ],
   })
 
   function handleDecrementCoffee(coffee: Coffee) {
@@ -190,6 +222,14 @@ export const CoffeeProvider = ({ children }: CoffeeProviderProps) => {
     dispatch(addToCart(coffee))
   }
 
+  function handleDecrementCoffeeToCart(coffee: Coffee) {
+    dispatch(decrementCoffeeToCart(coffee))
+  }
+
+  function handleIncrementCoffeeToCart(coffee: Coffee) {
+    dispatch(incrementCoffeeToCart(coffee))
+  }
+
   function handleRemoveFromCart(coffee: Coffee) {
     dispatch(removeFromCart(coffee))
   }
@@ -202,6 +242,8 @@ export const CoffeeProvider = ({ children }: CoffeeProviderProps) => {
         handleDecrementCoffee,
         handleIncrementCoffee,
         handleAddToCart,
+        handleDecrementCoffeeToCart,
+        handleIncrementCoffeeToCart,
         handleRemoveFromCart,
       }}
     >
