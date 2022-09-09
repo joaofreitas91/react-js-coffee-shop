@@ -75,6 +75,7 @@ export const InputContainer = styled.div`
 
 interface InputProps {
   width?: 'small' | 'medium'
+  inputError?: boolean | undefined
 }
 
 const sizes = {
@@ -84,10 +85,28 @@ const sizes = {
 
 export const Input = styled.input<InputProps>`
   font-size: 1rem;
-  padding: 0.75rem;
   background: ${(props) => props.theme.colors['base-input']};
-  border: 1px solid ${(props) => props.theme.colors['base-button']};
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+
+  padding: 0.75rem;
   width: ${(props) => (props.width ? sizes[props.width] : '100%')};
+
+  &:focus {
+    border: 1px solid ${(props) => props.theme.colors.yellow};
+  }
+
+  ${(props) =>
+    props.inputError &&
+    css`
+      border: 1px solid red;
+
+      &:focus {
+        border: 1px solid red;
+      }
+    `}
 `
 
 export const PaymentContainer = styled.div`

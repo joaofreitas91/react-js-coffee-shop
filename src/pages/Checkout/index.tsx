@@ -1,14 +1,7 @@
-import {
-  Bank,
-  CreditCard,
-  CurrencyDollar,
-  MapPinLine,
-  Minus,
-  Money,
-  Plus,
-  Trash,
-} from 'phosphor-react'
 import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 import { CoffeeContext } from '../../contexts/CoffeeContext'
 import {
   Container,
@@ -36,7 +29,32 @@ import {
   OrderList,
 } from './styles'
 
+import {
+  Bank,
+  CreditCard,
+  CurrencyDollar,
+  MapPinLine,
+  Minus,
+  Money,
+  Plus,
+  Trash,
+} from 'phosphor-react'
+
 export const DeliveryFee = 3.5
+
+const newOrderSchema = zod.object({
+  cep: zod.string().min(9).max(9),
+  street: zod.string().min(3),
+  number: zod.number().min(1).nullable(),
+  otherInformation: zod.string().optional(),
+  neighborhood: zod.string().min(3),
+  city: zod.string().min(3),
+  state: zod.string().min(2).max(2),
+  paymentMethod: zod.string().min(3),
+  cpf: zod.string(),
+})
+
+type NewOrder = zod.infer<typeof newOrderSchema>
 
 export const Checkout = () => {
   const {
@@ -46,15 +64,37 @@ export const Checkout = () => {
     handleRemoveFromCart,
   } = useContext(CoffeeContext)
 
+  const { register, handleSubmit, reset, formState } = useForm<NewOrder>({
+    defaultValues: {
+      cep: '',
+      street: '',
+      number: null,
+      otherInformation: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+      paymentMethod: 'credit',
+      cpf: '',
+    },
+    resolver: zodResolver(newOrderSchema),
+  })
+
+  const { errors } = formState
+
   const total = cart.reduce((acc, item) => {
     return acc + item.price * item.quantity
   }, 0)
+
+  function createNewOrder(data: NewOrder) {
+    console.log({ ...data, items: cart })
+    reset()
+  }
 
   return (
     <Container>
       <div>
         <Title>Complete seu pedido</Title>
-        <Form action="#" id="coffeeForm">
+        <Form id="coffeeForm" onSubmit={handleSubmit(createNewOrder)}>
           <SubtitleContainer variant="yellow-dark">
             <MapPinLine size={22} />
             <div>
@@ -64,19 +104,79 @@ export const Checkout = () => {
           </SubtitleContainer>
           <InputContainers>
             <InputContainer>
-              <Input width="medium" type="text" placeholder="CEP" />
+              <Input
+                width="medium"
+                placeholder="CEP"
+                maxLength={9}
+                inputError={!!errors.cep}
+                {...register('cep', {
+                  onChange: (e) => {
+                    e.target.value = e.target.value
+                      .replace(/\D/g, '')
+                      .replace(/^(\d{5})(\d)/, '$1-$2')
+                  },
+                })}
+              />
             </InputContainer>
             <InputContainer>
-              <Input type="text" placeholder="Rua" />
+              <Input
+                type="text"
+                placeholder="Rua"
+                maxLength={50}
+                inputError={!!errors.street}
+                {...register('street')}
+              />
             </InputContainer>
             <InputContainer>
-              <Input width="medium" type="text" placeholder="Número" />
-              <Input placeholder="Complemento" />
+              <Input
+                width="medium"
+                type="text"
+                placeholder="Número"
+                maxLength={5}
+                inputError={!!errors.number}
+                {...register('number', {
+                  valueAsNumber: true,
+                  onChange: (e) =>
+                    (e.target.value = e.target.value.replace(/\D/g, '')),
+                })}
+              />
+              <Input
+                maxLength={50}
+                placeholder="Complemento"
+                inputError={!!errors.otherInformation}
+                {...register('otherInformation')}
+              />
             </InputContainer>
             <InputContainer>
-              <Input width="medium" type="text" placeholder="Bairro" />
-              <Input type="text" placeholder="Cidade" />
-              <Input width="small" type="text" placeholder="UF" />
+              <Input
+                width="medium"
+                type="text"
+                placeholder="Bairro"
+                maxLength={20}
+                inputError={!!errors.neighborhood}
+                {...register('neighborhood')}
+              />
+              <Input
+                type="text"
+                placeholder="Cidade"
+                maxLength={20}
+                inputError={!!errors.city}
+                {...register('city')}
+              />
+              <Input
+                width="small"
+                type="text"
+                placeholder="UF"
+                maxLength={2}
+                inputError={!!errors.state}
+                {...register('state', {
+                  onChange: (e) => {
+                    e.target.value = e.target.value
+                      .toUpperCase()
+                      .replace(/[^A-Za-z]/g, '')
+                  },
+                })}
+              />
             </InputContainer>
           </InputContainers>
         </Form>
@@ -92,19 +192,37 @@ export const Checkout = () => {
             </div>
           </SubtitleContainer>
           <PaymentMethod>
-            <input type="radio" name="payment" id="credit" form="coffeeForm" />
+            <input
+              type="radio"
+              id="credit"
+              form="coffeeForm"
+              value={'credit'}
+              {...register('paymentMethod', { required: true })}
+            />
             <label htmlFor="credit">
               <CreditCard size={22} />
               CARTÃO DE CRÉDITO
             </label>
 
-            <input type="radio" name="payment" id="debit" form="coffeeForm" />
+            <input
+              type="radio"
+              id="debit"
+              value={'debit'}
+              form="coffeeForm"
+              {...register('paymentMethod', { required: true })}
+            />
             <label htmlFor="debit">
               <Bank size={22} />
               CARTÃO DE DÉBITO
             </label>
 
-            <input type="radio" name="payment" id="cash" form="coffeeForm" />
+            <input
+              type="radio"
+              form="coffeeForm"
+              id="cash"
+              value={'cash'}
+              {...register('paymentMethod', { required: true })}
+            />
             <label htmlFor="cash">
               <Money size={22} />
               DINHEIRO
@@ -185,7 +303,7 @@ export const Checkout = () => {
               </OrderDetailsText>
             </OrderDetails>
           </OrderDetailsContainer>
-          <ButtonConfirm type="submit" form="coffeeForm">
+          <ButtonConfirm type="button" form="coffeeForm" value="">
             Confirmar Pedido
           </ButtonConfirm>
         </OrderContainer>
