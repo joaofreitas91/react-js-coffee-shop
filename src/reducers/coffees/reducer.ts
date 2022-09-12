@@ -17,7 +17,7 @@ export interface StateCoffee {
 
 interface Actions {
   type: string
-  payload?: Coffee
+  payload?: Coffee | any
 }
 
 export function coffeesReducer(state: StateCoffee, action: Actions) {

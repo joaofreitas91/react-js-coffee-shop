@@ -28,6 +28,7 @@ import {
   OrderDetailsText,
   ButtonConfirm,
   OrderList,
+  ResumeContainer,
 } from './styles'
 
 import {
@@ -236,7 +237,7 @@ export const Checkout = () => {
           </PaymentMethod>
         </PaymentContainer>
       </div>
-      <div>
+      <ResumeContainer>
         <Title>Cafés Selecionados</Title>
         <OrderContainer>
           <OrderList>
@@ -313,7 +314,7 @@ export const Checkout = () => {
             Confirmar Pedido
           </ButtonConfirm>
         </OrderContainer>
-      </div>
+      </ResumeContainer>
     </Container>
   )
 }

@@ -177,6 +177,10 @@ export const OrderContainer = styled.div`
   background-color: ${(props) => props.theme.colors['base-card']};
 `
 
+export const ResumeContainer = styled.div`
+  flex: 1;
+`
+
 export const OrderList = styled.ul`
   max-height: 400px;
   overflow-y: auto;
