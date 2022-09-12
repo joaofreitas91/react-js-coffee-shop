@@ -1,4 +1,4 @@
-# Coffee Shop - (PROJETO EM CONSTRUÇÃO 🚧🚧🚧)
+# Coffee Shop
 
 <p align="center">
   <a href="#sobre">Sobre</a> -
@@ -27,10 +27,14 @@ Visite o meu projeto clicando [AQUI](https://react-js-coffee-shop.vercel.app/)
 <h1 id='tech'>Tecnologias</h1>
 
 - React JS
+- React useReducer
+- React Hook Form
+- ZOD - Form Validation
 - Typescript
 - React Router Dom
 - context API
 - Styled Component
+- Phosphor Icons
 - Eslint
 
 <h1 id='pre'>Pré requisitos </h1>
@@ -43,10 +47,10 @@ Visite o meu projeto clicando [AQUI](https://react-js-coffee-shop.vercel.app/)
 
 ```bash
 #Clone esse repositório
-$ git clone https://github.com/joaofreitas91/react-js-pomodoro-timer.git
+$ git clone https://github.com/joaofreitas91/react-js-coffee-shop.git
 
 #Entre na pasta
-$ cd react-js-pomodoro-timer
+$ cd react-js-coffee-shop
 
 #Instale as dependências 
 $ yarn
