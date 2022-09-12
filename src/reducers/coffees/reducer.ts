@@ -15,12 +15,7 @@ export interface StateCoffee {
   cart: Coffee[]
 }
 
-interface Actions {
-  type: string
-  payload?: Coffee | any
-}
-
-export function coffeesReducer(state: StateCoffee, action: Actions) {
+export function coffeesReducer(state: StateCoffee, action: any) {
   switch (action.type) {
     case ActionsTypes.DECREMENT_COFFEE: {
       return {
