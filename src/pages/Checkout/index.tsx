@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
@@ -54,7 +55,7 @@ const newOrderSchema = zod.object({
   cpf: zod.string(),
 })
 
-type NewOrder = zod.infer<typeof newOrderSchema>
+export type NewOrder = zod.infer<typeof newOrderSchema>
 
 export const Checkout = () => {
   const {
@@ -62,9 +63,11 @@ export const Checkout = () => {
     handleDecrementCoffeeToCart,
     handleIncrementCoffeeToCart,
     handleRemoveFromCart,
+    handleClearCart,
+    handleSetOrder,
   } = useContext(CoffeeContext)
 
-  const { register, handleSubmit, reset, formState } = useForm<NewOrder>({
+  const { register, handleSubmit, formState } = useForm<NewOrder>({
     defaultValues: {
       cep: '',
       street: '',
@@ -73,7 +76,7 @@ export const Checkout = () => {
       neighborhood: '',
       city: '',
       state: '',
-      paymentMethod: 'credit',
+      paymentMethod: 'Cartão de Crédito',
       cpf: '',
     },
     resolver: zodResolver(newOrderSchema),
@@ -85,9 +88,12 @@ export const Checkout = () => {
     return acc + item.price * item.quantity
   }, 0)
 
+  const navigate = useNavigate()
+
   function createNewOrder(data: NewOrder) {
-    console.log({ ...data, items: cart })
-    reset()
+    handleSetOrder({ ...data, items: cart })
+    handleClearCart()
+    navigate('/success')
   }
 
   return (
@@ -196,7 +202,7 @@ export const Checkout = () => {
               type="radio"
               id="credit"
               form="coffeeForm"
-              value={'credit'}
+              value={'Cartão de Crédito'}
               {...register('paymentMethod', { required: true })}
             />
             <label htmlFor="credit">
@@ -207,7 +213,7 @@ export const Checkout = () => {
             <input
               type="radio"
               id="debit"
-              value={'debit'}
+              value={'Cartão de Débito'}
               form="coffeeForm"
               {...register('paymentMethod', { required: true })}
             />
@@ -220,7 +226,7 @@ export const Checkout = () => {
               type="radio"
               form="coffeeForm"
               id="cash"
-              value={'cash'}
+              value={'Dinheiro'}
               {...register('paymentMethod', { required: true })}
             />
             <label htmlFor="cash">
@@ -303,7 +309,7 @@ export const Checkout = () => {
               </OrderDetailsText>
             </OrderDetails>
           </OrderDetailsContainer>
-          <ButtonConfirm type="button" form="coffeeForm" value="">
+          <ButtonConfirm type="submit" form="coffeeForm" value="">
             Confirmar Pedido
           </ButtonConfirm>
         </OrderContainer>

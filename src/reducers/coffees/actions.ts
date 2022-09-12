@@ -13,6 +13,8 @@ export enum ActionsTypes {
   DECREMENT_COFFEE_TO_CART = 'DECREMENT_COFFEE_TO_CART',
   // eslint-disable-next-line no-unused-vars
   REMOVE_FROM_CART = 'REMOVE_FROM_CART',
+  // eslint-disable-next-line no-unused-vars
+  CLEAR_CART = 'CLEAR_CART',
 }
 
 export function decrementCoffee(coffee: Coffee) {
@@ -54,5 +56,11 @@ export function removeFromCart(coffee: Coffee) {
   return {
     type: ActionsTypes.REMOVE_FROM_CART,
     payload: coffee,
+  }
+}
+
+export function clearCart() {
+  return {
+    type: ActionsTypes.CLEAR_CART,
   }
 }

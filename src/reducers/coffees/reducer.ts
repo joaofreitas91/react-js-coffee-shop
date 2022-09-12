@@ -17,7 +17,7 @@ export interface StateCoffee {
 
 interface Actions {
   type: string
-  payload: Coffee
+  payload?: Coffee
 }
 
 export function coffeesReducer(state: StateCoffee, action: Actions) {
@@ -26,7 +26,7 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
       return {
         ...state,
         catalog: state.catalog.map((coffee) => {
-          if (coffee.id === action.payload.id && coffee.quantity > 1) {
+          if (coffee.id === action.payload?.id && coffee.quantity > 1) {
             return { ...coffee, quantity: coffee.quantity - 1 }
           }
           return coffee
@@ -38,7 +38,7 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
       return {
         ...state,
         catalog: state.catalog.map((coffee) => {
-          if (coffee.id === action.payload.id) {
+          if (coffee.id === action.payload?.id) {
             return { ...coffee, quantity: coffee.quantity + 1 }
           }
           return coffee
@@ -48,17 +48,17 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
 
     case ActionsTypes.ADD_TO_CART: {
       const hasCoffee = state.cart.some(
-        (coffee) => coffee.id === action.payload.id,
+        (coffee) => coffee.id === action.payload?.id,
       )
 
       if (hasCoffee) {
         return {
           ...state,
           cart: state.cart.map((coffee) => {
-            if (coffee.id === action.payload.id) {
+            if (coffee.id === action.payload?.id) {
               return {
                 ...coffee,
-                quantity: coffee.quantity + action.payload.quantity,
+                quantity: coffee.quantity + action.payload?.quantity,
               }
             }
             return coffee
@@ -76,7 +76,7 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
       return {
         ...state,
         cart: state.cart.map((coffee) => {
-          if (coffee.id === action.payload.id) {
+          if (coffee.id === action.payload?.id) {
             return { ...coffee, quantity: coffee.quantity + 1 }
           }
           return coffee
@@ -87,7 +87,7 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
       return {
         ...state,
         cart: state.cart.map((coffee) => {
-          if (coffee.id === action.payload.id && coffee.quantity > 1) {
+          if (coffee.id === action.payload?.id && coffee.quantity > 1) {
             return { ...coffee, quantity: coffee.quantity - 1 }
           }
           return coffee
@@ -98,7 +98,14 @@ export function coffeesReducer(state: StateCoffee, action: Actions) {
     case ActionsTypes.REMOVE_FROM_CART: {
       return {
         ...state,
-        cart: state.cart.filter((coffee) => coffee.id !== action.payload.id),
+        cart: state.cart.filter((coffee) => coffee.id !== action.payload?.id),
+      }
+    }
+
+    case ActionsTypes.CLEAR_CART: {
+      return {
+        ...state,
+        cart: [],
       }
     }
 
